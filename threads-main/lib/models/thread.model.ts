@@ -21,6 +21,10 @@ const threadSchema = new mongoose.Schema({
   parentId: {
     type: String,
   },
+  
+  // One thread can have multiple threads as children. If users write comments on one thread,
+  // then that specific thread is gonna have multiple comments as children, and even comments could
+  // have recomments as its children.
   children: [
     {
       type: mongoose.Schema.Types.ObjectId,

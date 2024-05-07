@@ -14,9 +14,10 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
   // Calculate the number of posts to skip based on the page number and page size.
   const skipAmount = (pageNumber - 1) * pageSize;
 
-  // Create a query to fetch the posts that have no parent (top-level threads) (a thread that is not a comment/reply).
+  // Create a query to fetch the posts that have no parent, top-level threads 
+  // which is a thread that is not a comment/reply.
   const postsQuery = Thread.find({ parentId: { $in: [null, undefined] } })
-    .sort({ createdAt: "desc" })
+    .sort({ createdAt: "desc" }) // 'desc' is descending.
     .skip(skipAmount)
     .limit(pageSize)
     .populate({
@@ -68,16 +69,23 @@ export async function createThread({ text, author, communityId, path }: Params
     const createdThread = await Thread.create({
       text,
       author,
-      community: communityIdObject, // Assign communityId if provided, or leave it null for personal account
+
+      // Assign communityId if provided, or leave it null for personal account
+      community: communityIdObject, 
     });
 
-    // Update User model
+    // Update User model. We not only create thread, but also need to push this thread to user
+    // who created it. '$push: { threads: createdThread._id }' this code indicates that we push
+    // 'threads', which is created by specific user, to 'threads' in the 'User' data table. 
+    // See 'user.model.ts' file to see how 'User' data table is configured(there is 'threads')
+    // '$push' is mongodb update operator used to add an item to an array.
     await User.findByIdAndUpdate(author, {
       $push: { threads: createdThread._id },
     });
 
     if (communityIdObject) {
-      // Update Community model
+      
+      // Update Community model.
       await Community.findByIdAndUpdate(communityIdObject, {
         $push: { threads: createdThread._id },
       });

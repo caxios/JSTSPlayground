@@ -46,7 +46,7 @@ function PostThread({ userId }: Props) {
   // so we call 'createThread' and while executing it, we are not wait until that work is done but
   // go other line of code. 'onSubmit' is wait until 'createThread' is done, and after 'createThread'
   // is finally resolved(completes execution) 'router.push()' is executed. And of course, there
-  // is change to fail executing 'createThread', so usually we use try-except to catch errors.
+  // is chance to fail executing 'createThread', so usually we use try-except to catch errors.
   // And asynchronous function returns 'Promise' object. It is an object results from execution of
   // asynchronous function. We can pass it to other functions(chaining) to further process it.
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
