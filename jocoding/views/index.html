@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="map" style="width:100%;height:800px;"></div>
+    <br/>
+    <label for="query">찾고자 하는 식당을 입력하세요</label>
+    <input id="query" type="text"/>
+    <button onclick="findPlaces()">검색</button>
+    
+</body>
+<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzYADJ_ZIs7VvH2HY9C8OBaBg7UB4CyGM&loading=async&region=KR&language=kr&callback=myMap"></script>
+<script defer src="../index.js"></script>
+</html>
